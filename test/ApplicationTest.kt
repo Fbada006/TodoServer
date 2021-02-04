@@ -1,19 +1,17 @@
 package com.disruption
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.locations.*
-import io.ktor.sessions.*
-import io.ktor.auth.*
-import io.ktor.gson.*
-import io.ktor.features.*
-import kotlin.test.*
-import io.ktor.server.testing.*
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.withTestApplication
+import io.ktor.util.KtorExperimentalAPI
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ApplicationTest {
+    @KtorExperimentalAPI
+    @KtorExperimentalLocationsAPI
     @Test
     fun testRoot() {
         withTestApplication({ module(testing = true) }) {
