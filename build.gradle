@@ -47,5 +47,7 @@ dependencies {
     implementation "com.zaxxer:HikariCP:$hikaricp_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 }
-task stage(dependsOn: ['assembleShadowDist'])
+//task stage(dependsOn: ['assembleShadowDist'])
+
+task stage(dependsOn: ['installDist'])
 
