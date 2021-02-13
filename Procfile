@@ -1,1 +1,1 @@
-web: ./build/install/todoserver/bin/projectName
+web: ./build/install/todoserver/bin/todoserver
