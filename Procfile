@@ -1,1 +1,1 @@
-web: ./build/install/todoserver/bin/todoserver
+web: ./build/install/todoserver/bin/todoserver.bat
