@@ -28,24 +28,24 @@ repositories {
     mavenLocal()
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
+    mavenCentral()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "io.ktor:ktor-server-netty:$ktor_version"
-    implementation "ch.qos.logback:logback-classic:$logback_version"
-    implementation "io.ktor:ktor-server-core:$ktor_version"
-    implementation "io.ktor:ktor-locations:$ktor_version"
-    implementation "io.ktor:ktor-server-sessions:$ktor_version"
-    implementation "io.ktor:ktor-auth:$ktor_version"
-    implementation "io.ktor:ktor-auth-jwt:$ktor_version"
-    implementation "io.ktor:ktor-gson:$ktor_version"
-    implementation "org.jetbrains.exposed:exposed-core:$exposed_version"
-    implementation "org.jetbrains.exposed:exposed-dao:$exposed_version"
-    implementation "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
-    implementation "org.postgresql:postgresql:$postgres_version"
-    implementation "com.zaxxer:HikariCP:$hikaricp_version"
-    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
+    implementation "io.ktor:ktor-server-netty:2.0.3"
+    implementation "ch.qos.logback:logback-classic:1.2.11"
+    implementation "io.ktor:ktor-server-core:2.0.3"
+    implementation "io.ktor:ktor-locations:1.6.8"
+    implementation "io.ktor:ktor-server-sessions:2.0.3"
+    implementation "io.ktor:ktor-auth:1.6.8"
+    implementation "io.ktor:ktor-auth-jwt:1.6.8"
+    implementation "io.ktor:ktor-gson:1.6.8"
+    implementation "org.jetbrains.exposed:exposed-core:0.38.2"
+    implementation "org.jetbrains.exposed:exposed-dao:0.38.2"
+    implementation "org.jetbrains.exposed:exposed-jdbc:0.38.2"
+    implementation "org.postgresql:postgresql:42.3.6"
+    implementation "com.zaxxer:HikariCP:5.0.1"
+    testImplementation "io.ktor:ktor-server-tests:2.0.3"
 }
 //task stage(dependsOn: ['assembleShadowDist'])
 
