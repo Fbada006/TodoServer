@@ -9,5 +9,5 @@ object Todos: Table() {
     val todo = varchar("todo", 512)
     val done = bool("done")
 
-    override val primaryKey = PrimaryKey(id, name = "TODO_User_ID")
+    override val primaryKey = PrimaryKey(id, name = "TODO_Item_ID")
 }
