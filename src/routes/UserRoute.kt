@@ -4,20 +4,15 @@ import com.disruption.API_VERSION
 import com.disruption.auth.JwtService
 import com.disruption.auth.MySession
 import com.disruption.repository.Repository
-import io.ktor.application.application
-import io.ktor.application.call
-import io.ktor.application.log
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Location
-import io.ktor.locations.post
-import io.ktor.request.receive
-import io.ktor.response.respond
-import io.ktor.response.respondText
-import io.ktor.routing.Route
-import io.ktor.sessions.sessions
-import io.ktor.sessions.set
+import io.ktor.server.application.*
+import io.ktor.server.locations.*
+import io.ktor.server.locations.post
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 
 
 const val USERS = "$API_VERSION/users"

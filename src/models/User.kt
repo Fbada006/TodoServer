@@ -1,6 +1,6 @@
 package com.disruption.models
 
-import io.ktor.auth.Principal
+import io.ktor.server.auth.*
 import java.io.Serializable
 
 data class User(
