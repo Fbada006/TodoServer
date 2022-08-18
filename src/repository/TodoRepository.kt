@@ -3,11 +3,13 @@ package com.disruption.repository
 
 import com.disruption.models.Todo
 import com.disruption.models.User
-import com.disruption.repository.DatabaseFactory.dbQuery
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.statements.InsertStatement
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class TodoRepository : Repository {
     override suspend fun addUser(
@@ -81,4 +83,9 @@ class TodoRepository : Repository {
             done = row[Todos.done]
         )
     }
+
+    private suspend fun <T> dbQuery(block: () -> T): T =
+        withContext(Dispatchers.IO) {
+            transaction { block() }
+        }
 }

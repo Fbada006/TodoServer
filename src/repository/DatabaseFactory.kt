@@ -2,8 +2,6 @@ package com.disruption.repository
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -38,11 +36,5 @@ object DatabaseFactory {
         config.validate()
         return HikariDataSource(config)
     }
-
-    // 5
-    suspend fun <T> dbQuery(block: () -> T): T =
-        withContext(Dispatchers.IO) {
-            transaction { block() }
-        }
 }
 
