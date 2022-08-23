@@ -13,8 +13,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.10'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 group 'com.disruption'
 version '0.0.1'
