@@ -16,8 +16,8 @@ fun main() {
     val db = TodoRepository()
     val jwtService = JwtService()
 
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-        DatabaseFactory.init()
+    embeddedServer(Netty, port = System.getenv("PORT").toInt()) {
+    DatabaseFactory.init()
         configureSecurity(db, jwtService)
         configureRouting(db, jwtService)
         configureSerialization()
