@@ -61,26 +61,34 @@ class TodoRepository : Repository {
                 it[Todos.done] = done
             }
         }
-        return rowToTodo(statement?.resultedValues?.get(0))
+        return statement?.resultedValues?.get(0).rowToTodo()
     }
 
     override suspend fun getTodos(userId: Int): List<Todo> {
         return dbQuery {
             Todos.select {
-                Todos.userId.eq((userId)) // 3
-            }.mapNotNull { rowToTodo(it) }
+                Todos.userId.eq(userId) // 3
+            }.mapNotNull { it.rowToTodo() }
         }
     }
 
-    private fun rowToTodo(row: ResultRow?): Todo? {
-        if (row == null) {
+    override suspend fun getTodoById(todoId: Int): Todo? {
+        return dbQuery {
+            Todos.select {
+                Todos.id.eq(todoId)
+            }.singleOrNull().rowToTodo()
+        }
+    }
+
+    private fun ResultRow?.rowToTodo(): Todo? {
+        if (this == null) {
             return null
         }
         return Todo(
-            id = row[Todos.id],
-            userId = row[Todos.userId],
-            todo = row[Todos.todo],
-            done = row[Todos.done]
+            id = this[Todos.id],
+            userId = this[Todos.userId],
+            todo = this[Todos.todo],
+            done = this[Todos.done]
         )
     }
 
