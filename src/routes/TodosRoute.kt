@@ -22,7 +22,7 @@ class TodoRoute
 
 @KtorExperimentalLocationsAPI
 fun Route.todos(db: Repository) {
-    authenticate("jwt") {
+    authenticate("auth-jwt") {
         post<TodoRoute> {
             val todosParameters = call.receive<Parameters>()
             val todo = todosParameters["todo"]

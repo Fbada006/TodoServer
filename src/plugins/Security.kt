@@ -2,7 +2,6 @@ package com.disruption.plugins
 
 import com.disruption.auth.JwtService
 import com.disruption.auth.MySession
-import com.disruption.models.User
 import com.disruption.repository.TodoRepository
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -17,7 +16,7 @@ fun Application.configureSecurity(db:TodoRepository, jwtService: JwtService) {
     }
 
     authentication {
-        jwt {
+        jwt("auth-jwt") {
             verifier(jwtService.verifier)
             realm = "Todo Server"
             validate { jwtCredential ->
