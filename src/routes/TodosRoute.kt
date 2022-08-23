@@ -15,10 +15,15 @@ import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
 
 const val TODOS = "$API_VERSION/todos"
+const val TODO_DETAILS = "$API_VERSION/tododetails"
 
 @KtorExperimentalLocationsAPI
 @Location(TODOS)
 class TodoRoute
+
+@KtorExperimentalLocationsAPI
+@Location(TODO_DETAILS)
+class TodoDetailsRoute
 
 @KtorExperimentalLocationsAPI
 fun Route.todos(db: Repository) {
@@ -67,6 +72,22 @@ fun Route.todos(db: Repository) {
                 application.log.error("Failed to get Todos", e)
                 call.respond(HttpStatusCode.BadRequest, "Problems getting Todos")
             }
+        }
+
+        get<TodoDetailsRoute> {
+            val todoId = call.request.queryParameters["todoid"]?.toInt()
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest, "The todo id cannot be missing in this request."
+                )
+
+            val todo = db.getTodoById(todoId)
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest, "Problems retrieving todo. Please try again"
+                )
+
+            return@get call.respond(
+                HttpStatusCode.OK, todo
+            )
         }
     }
 }
