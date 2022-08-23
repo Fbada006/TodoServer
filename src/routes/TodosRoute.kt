@@ -27,7 +27,7 @@ fun Route.todos(db: Repository) {
             val todosParameters = call.receive<Parameters>()
             val todo = todosParameters["todo"]
                 ?: return@post call.respond(
-                    HttpStatusCode.BadRequest, "Missing Todo"
+                    HttpStatusCode.BadRequest, "Missing todo data. Please add todo information."
                 )
             val done = todosParameters["done"] ?: "false"
 
@@ -36,7 +36,7 @@ fun Route.todos(db: Repository) {
             }
             if (user == null) {
                 call.respond(
-                    HttpStatusCode.BadRequest, "Problems retrieving User"
+                    HttpStatusCode.BadRequest, "Problems retrieving user. Does this user exist?"
                 )
                 return@post
             }
@@ -50,14 +50,14 @@ fun Route.todos(db: Repository) {
                 }
             } catch (e: Throwable) {
                 application.log.error("Failed to add todo", e)
-                call.respond(HttpStatusCode.BadRequest, "Problems Saving Todo")
+                call.respond(HttpStatusCode.BadRequest, "Problems saving todo. Please try again later.")
             }
         }
 
         get<TodoRoute> {
             val user = call.sessions.get<MySession>()?.let { db.findUser(it.userId) }
             if (user == null) {
-                call.respond(HttpStatusCode.BadRequest, "Problems retrieving User")
+                call.respond(HttpStatusCode.BadRequest, "Problems retrieving user")
                 return@get
             }
             try {
