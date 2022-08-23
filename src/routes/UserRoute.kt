@@ -54,7 +54,7 @@ fun Route.users(
             newUser?.userId?.let {
                 call.sessions.set(MySession(it))
                 call.respondText(
-                    "Your token is: ${jwtService.generateToken(newUser)}",
+                    jwtService.generateToken(newUser),
                     status = HttpStatusCode.Created
                 )
             }
