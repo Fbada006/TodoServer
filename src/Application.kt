@@ -7,9 +7,7 @@ import com.disruption.plugins.configureSerialization
 import com.disruption.repository.DatabaseFactory
 import com.disruption.repository.TodoRepository
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
 import io.ktor.server.locations.*
-import io.ktor.server.netty.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
