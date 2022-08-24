@@ -82,7 +82,7 @@ fun Route.todos(db: Repository) {
 
             val todo = db.getTodoById(todoId)
                 ?: return@get call.respond(
-                    HttpStatusCode.BadRequest, "Problems retrieving todo. Please try again"
+                    HttpStatusCode.NotFound, "Problems retrieving todo. Please try again"
                 )
 
             return@get call.respond(
