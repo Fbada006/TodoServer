@@ -9,6 +9,7 @@ object Todos: Table() {
     val todo = varchar("todo", 512)
     val done = bool("done")
     val createdAt = long("createdAt")
+    val dueAt = long("dueAt")
 
     override val primaryKey = PrimaryKey(id, name = "TODO_Item_ID")
 }

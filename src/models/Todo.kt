@@ -5,5 +5,6 @@ data class Todo(
     val userId: Int,
     val todo: String,
     val done: Boolean,
-    val createdAt: Long
+    val createdAt: Long,
+    val dueAt: Long
 )
