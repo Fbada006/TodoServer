@@ -88,7 +88,8 @@ class TodoRepository : Repository {
             id = this[Todos.id],
             userId = this[Todos.userId],
             todo = this[Todos.todo],
-            done = this[Todos.done]
+            done = this[Todos.done],
+            createdAt = this[Todos.createdAt]
         )
     }
 
