@@ -108,7 +108,7 @@ fun Route.users(
 
             val user = db.findUser(userId)
                 ?: return@get call.respond(
-                    HttpStatusCode.BadRequest, "Problems retrieving user. Does this user exist?"
+                    HttpStatusCode.NotFound, "Problems retrieving user. Does this user exist?"
                 )
 
             return@get call.respond(
