@@ -14,6 +14,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import java.util.StringJoiner
 
 
 const val USERS = "$API_VERSION/users"
@@ -41,7 +42,7 @@ fun Route.users(
     hashFunction: (String) -> String
 ) {
     post<UserCreateRoute> {
-        val signupParameters = call.receive<Parameters>()
+        val signupParameters = call.receive<HashMap<String, String>>()
         val password = signupParameters["password"]
             ?: return@post call.respond(
                 HttpStatusCode.Unauthorized, "Missing Fields: password"
@@ -71,7 +72,7 @@ fun Route.users(
     }
 
     post<UserLoginRoute> { // 1
-        val signinParameters = call.receive<Parameters>()
+        val signinParameters = call.receive<HashMap<String, String>>()
         val password = signinParameters["password"]
             ?: return@post call.respond(
                 HttpStatusCode.Unauthorized, "Missing Fields: Password"
