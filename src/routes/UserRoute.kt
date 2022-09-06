@@ -3,9 +3,9 @@ package com.disruption.routes
 import com.disruption.API_VERSION
 import com.disruption.auth.JwtService
 import com.disruption.auth.MySession
+import com.disruption.models.TokenResponse
 import com.disruption.repository.Repository
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.Parameters
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.locations.*
@@ -14,7 +14,6 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import java.util.StringJoiner
 
 
 const val USERS = "$API_VERSION/users"
@@ -60,9 +59,11 @@ fun Route.users(
             val newUser = db.addUser(email, displayName, hash)
             newUser?.userId?.let {
                 call.sessions.set(MySession(it))
-                call.respondText(
-                    jwtService.generateToken(newUser),
-                    status = HttpStatusCode.Created
+                call.respond(
+                    status = HttpStatusCode.Created,
+                    TokenResponse(
+                        token = jwtService.generateToken(newUser)
+                    )
                 )
             }
         } catch (e: Throwable) {
@@ -87,7 +88,11 @@ fun Route.users(
             currentUser?.userId?.let {
                 if (currentUser.passwordHash == hash) {
                     call.sessions.set(MySession(it))
-                    call.respondText(jwtService.generateToken(currentUser))
+                    call.respond(
+                        TokenResponse(
+                            token = jwtService.generateToken(currentUser)
+                        )
+                    )
                 } else {
                     call.respond(
                         HttpStatusCode.BadRequest, "Problems retrieving User"
