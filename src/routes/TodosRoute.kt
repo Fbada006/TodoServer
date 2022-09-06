@@ -29,7 +29,7 @@ class TodoDetailsRoute
 fun Route.todos(db: Repository) {
     authenticate("auth-jwt") {
         post<TodoRoute> {
-            val todosParameters = call.receive<Parameters>()
+            val todosParameters = call.receive<HashMap<String, String>>()
             val todo = todosParameters["todo"]
                 ?: return@post call.respond(
                     HttpStatusCode.BadRequest, "Missing todo data. Please add todo information."

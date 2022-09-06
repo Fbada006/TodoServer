@@ -3,9 +3,9 @@ package com.disruption.routes
 import com.disruption.API_VERSION
 import com.disruption.auth.JwtService
 import com.disruption.auth.MySession
+import com.disruption.models.TokenResponse
 import com.disruption.repository.Repository
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.Parameters
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.locations.*
@@ -41,7 +41,7 @@ fun Route.users(
     hashFunction: (String) -> String
 ) {
     post<UserCreateRoute> {
-        val signupParameters = call.receive<Parameters>()
+        val signupParameters = call.receive<HashMap<String, String>>()
         val password = signupParameters["password"]
             ?: return@post call.respond(
                 HttpStatusCode.Unauthorized, "Missing Fields: password"
@@ -59,9 +59,11 @@ fun Route.users(
             val newUser = db.addUser(email, displayName, hash)
             newUser?.userId?.let {
                 call.sessions.set(MySession(it))
-                call.respondText(
-                    jwtService.generateToken(newUser),
-                    status = HttpStatusCode.Created
+                call.respond(
+                    status = HttpStatusCode.Created,
+                    TokenResponse(
+                        token = jwtService.generateToken(newUser)
+                    )
                 )
             }
         } catch (e: Throwable) {
@@ -71,7 +73,7 @@ fun Route.users(
     }
 
     post<UserLoginRoute> { // 1
-        val signinParameters = call.receive<Parameters>()
+        val signinParameters = call.receive<HashMap<String, String>>()
         val password = signinParameters["password"]
             ?: return@post call.respond(
                 HttpStatusCode.Unauthorized, "Missing Fields: Password"
@@ -86,7 +88,11 @@ fun Route.users(
             currentUser?.userId?.let {
                 if (currentUser.passwordHash == hash) {
                     call.sessions.set(MySession(it))
-                    call.respondText(jwtService.generateToken(currentUser))
+                    call.respond(
+                        TokenResponse(
+                            token = jwtService.generateToken(currentUser)
+                        )
+                    )
                 } else {
                     call.respond(
                         HttpStatusCode.BadRequest, "Problems retrieving User"
