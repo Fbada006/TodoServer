@@ -57,12 +57,13 @@ fun Route.users(
         val hash = hashFunction(password)
         try {
             val newUser = db.addUser(email, displayName, hash)
-            newUser?.userId?.let {
-                call.sessions.set(MySession(it))
+            newUser?.userId?.let { userId ->
+                call.sessions.set(MySession(userId))
                 call.respond(
                     status = HttpStatusCode.Created,
                     TokenResponse(
-                        token = jwtService.generateToken(newUser)
+                        token = jwtService.generateToken(newUser),
+                        userId = userId
                     )
                 )
             }
@@ -85,12 +86,13 @@ fun Route.users(
         val hash = hashFunction(password)
         try {
             val currentUser = db.findUserByEmail(email)
-            currentUser?.userId?.let {
+            currentUser?.userId?.let { userId ->
                 if (currentUser.passwordHash == hash) {
-                    call.sessions.set(MySession(it))
+                    call.sessions.set(MySession(userId))
                     call.respond(
                         TokenResponse(
-                            token = jwtService.generateToken(currentUser)
+                            token = jwtService.generateToken(currentUser),
+                            userId = userId
                         )
                     )
                 } else {
