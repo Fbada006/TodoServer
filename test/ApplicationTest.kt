@@ -6,13 +6,4 @@ import org.junit.Test
 
 
 class ApplicationTest {
-    @KtorExperimentalLocationsAPI
-    @Test
-    fun testRoot() {
-        testApplication {
-            application {
-
-            }
-        }
-    }
 }
