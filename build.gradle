@@ -11,11 +11,11 @@ buildscript {
 plugins {
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version '1.7.10'
-    id "io.ktor.plugin" version "2.1.0"
+    id "io.ktor.plugin" version "2.3.12"
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 17
+targetCompatibility = 17
 
 group 'com.disruption'
 version '0.0.1'
