@@ -19,12 +19,13 @@ object DatabaseFactory {
     }
 
     private fun hikari(): HikariDataSource {
-        println("Database URL--------: ${System.getenv("JDBC_DATABASE_URL")}")
+        println("Database URL--------: ${System.getenv("DATABASE_URL")}")
         println("JDBC DRIVER-------: ${System.getenv("JDBC_DRIVER")}")
 
         val config = HikariConfig()
         config.driverClassName = System.getenv("JDBC_DRIVER") // 1
-        config.jdbcUrl = System.getenv("JDBC_DATABASE_URL") // 2
+        val rawDatabaseUrl = System.getenv("DATABASE_URL") ?: error("DATABASE_URL not set")
+        config.jdbcUrl = if (rawDatabaseUrl.startsWith("jdbc:")) rawDatabaseUrl else "jdbc:$rawDatabaseUrl"
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
