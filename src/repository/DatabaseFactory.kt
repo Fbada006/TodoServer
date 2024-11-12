@@ -19,13 +19,10 @@ object DatabaseFactory {
     }
 
     private fun hikari(): HikariDataSource {
-        println("Database URL--------: ${System.getenv("DATABASE_URL")}")
-        println("JDBC DRIVER-------: ${System.getenv("JDBC_DRIVER")}")
-
         val config = HikariConfig()
         config.driverClassName = System.getenv("JDBC_DRIVER") // 1
         // Parse the PostgreSQL URL
-        val rawDatabaseUrl = System.getenv("DATABASE_URL") ?: error("DATABASE_URL not set")
+        val rawDatabaseUrl = System.getenv("JDBC_DATABASE_URL") ?: error("DATABASE_URL not set")
         val jdbcUrl = if (rawDatabaseUrl.startsWith("jdbc:")) {
             rawDatabaseUrl
         } else {
