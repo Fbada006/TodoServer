@@ -20,7 +20,7 @@ object DatabaseFactory {
 
     private fun hikari(): HikariDataSource {
         val config = HikariConfig()
-        config.driverClassName = System.getenv("JDBC_DRIVER") // 1
+//        config.driverClassName = System.getenv("JDBC_DRIVER") // 1
         config.jdbcUrl = System.getenv("DATABASE_URL") // 2
         config.maximumPoolSize = 3
         config.isAutoCommit = false
