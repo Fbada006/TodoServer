@@ -24,19 +24,27 @@ object DatabaseFactory {
 
         val config = HikariConfig()
         config.driverClassName = System.getenv("JDBC_DRIVER") // 1
+        // Parse the PostgreSQL URL
         val rawDatabaseUrl = System.getenv("DATABASE_URL") ?: error("DATABASE_URL not set")
-        config.jdbcUrl = if (rawDatabaseUrl.startsWith("jdbc:")) rawDatabaseUrl else "jdbc:$rawDatabaseUrl"
+        val jdbcUrl = if (rawDatabaseUrl.startsWith("jdbc:")) {
+            rawDatabaseUrl
+        } else {
+            // Convert PostgreSQL URL to JDBC URL format
+            val regex = "postgresql://(.*?):(.*?)@(.*?):(\\d+)/(.*?)$".toRegex()
+            val matchResult = regex.find(rawDatabaseUrl) ?: error("Invalid DATABASE_URL format")
+            val (username, password, host, port, database) = matchResult.destructured
+
+            // Set credentials separately
+            config.username = username
+            config.password = password
+
+            "jdbc:postgresql://$host:$port/$database"
+        }
+
+        config.jdbcUrl = jdbcUrl
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-        val user = System.getenv("DB_USER") // 3
-        if (user != null) {
-            config.username = user
-        }
-        val password = System.getenv("DB_PASSWORD") // 4
-        if (password != null) {
-            config.password = password
-        }
         config.validate()
         return HikariDataSource(config)
     }
