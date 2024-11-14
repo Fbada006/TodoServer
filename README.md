@@ -20,7 +20,7 @@ JDBC_DATABASE_URL=jdbc:postgresql:todos?user=postgres;
 SECRET_KEY=898748674728934843
 JWT_SECRET=898748674728934843
 ```
-Note the comma in the second configuration.
+Note the semi colon in the second configuration.
 
 
 Enjoy!
